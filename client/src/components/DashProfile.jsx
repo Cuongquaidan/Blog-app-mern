@@ -14,6 +14,10 @@ import {
     updateStart,
     updateSuccess,
     updateFailure,
+    deleteUserFailure,
+    deleteUserStart,
+    deleteUserSuccess,
+    signoutSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -129,39 +133,39 @@ export default function DashProfile() {
             setUpdateUserError(error.message);
         }
     };
-    // const handleDeleteUser = async () => {
-    //     setShowModal(false);
-    //     try {
-    //         dispatch(deleteUserStart());
-    //         const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-    //             method: "DELETE",
-    //         });
-    //         const data = await res.json();
-    //         if (!res.ok) {
-    //             dispatch(deleteUserFailure(data.message));
-    //         } else {
-    //             dispatch(deleteUserSuccess(data));
-    //         }
-    //     } catch (error) {
-    //         dispatch(deleteUserFailure(error.message));
-    //     }
-    // };
+    const handleDeleteUser = async () => {
+        setShowModal(false);
+        try {
+            dispatch(deleteUserStart());
+            const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+                method: "DELETE",
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                dispatch(deleteUserFailure(data.message));
+            } else {
+                dispatch(deleteUserSuccess(data));
+            }
+        } catch (error) {
+            dispatch(deleteUserFailure(error.message));
+        }
+    };
 
-    // const handleSignout = async () => {
-    //     try {
-    //         const res = await fetch("/api/user/signout", {
-    //             method: "POST",
-    //         });
-    //         const data = await res.json();
-    //         if (!res.ok) {
-    //             console.log(data.message);
-    //         } else {
-    //             dispatch(signoutSuccess());
-    //         }
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // };
+    const handleSignout = async () => {
+        try {
+            const res = await fetch("/api/user/signout", {
+                method: "POST",
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                console.log(data.message);
+            } else {
+                dispatch(signoutSuccess());
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
     return (
         <div className="w-full max-w-lg p-3 mx-auto">
             <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -258,7 +262,9 @@ export default function DashProfile() {
                 >
                     Delete Account
                 </span>
-                <span className="cursor-pointer">Sign Out</span>
+                <span className="cursor-pointer" onClick={handleSignout}>
+                    Sign Out
+                </span>
             </div>
             {updateUserSuccess && (
                 <Alert color="success" className="mt-5">
@@ -289,7 +295,9 @@ export default function DashProfile() {
                             Are you sure you want to delete your account?
                         </h3>
                         <div className="flex justify-center gap-4">
-                            <Button color="failure">Yes, I am sure</Button>
+                            <Button color="failure" onClick={handleDeleteUser}>
+                                Yes, I am sure
+                            </Button>
                             <Button
                                 color="gray"
                                 onClick={() => setShowModal(false)}
