@@ -101,7 +101,7 @@ export const getUsers = async (req, res, next) => {
             .limit(limit);
 
         const userWithoutPassword = users.map((user) => {
-            const { password, ...rest } = users._doc;
+            const { password, ...rest } = user._doc;
             return rest;
         });
 
