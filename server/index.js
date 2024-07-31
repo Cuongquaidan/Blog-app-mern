@@ -5,6 +5,7 @@ import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
 import postRoute from "./routes/post.route.js";
 import cookieParser from "cookie-parser";
+import commentRoutes from "./routes/comment.route.js";
 dotenv.config();
 const username = process.env.USER;
 const password = process.env.PASSWORD;
@@ -29,6 +30,7 @@ app.listen(3000, () => {
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/post", postRoute);
+app.use("/api/comment", commentRoutes);
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || "Internal Server Error";
